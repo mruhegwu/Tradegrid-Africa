@@ -36,8 +36,8 @@ export const createOrder = async (req: AuthRequest, res: Response): Promise<void
       },
     });
     res.status(201).json(order);
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+  } catch {
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 
@@ -54,8 +54,8 @@ export const getMyOrders = async (req: AuthRequest, res: Response): Promise<void
       orderBy: { createdAt: 'desc' },
     });
     res.json(orders);
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+  } catch {
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 
@@ -82,8 +82,8 @@ export const updateOrderStatus = async (req: AuthRequest, res: Response): Promis
       },
     });
     res.json(updated);
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+  } catch {
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 
@@ -99,8 +99,8 @@ export const markPaymentSent = async (req: AuthRequest, res: Response): Promise<
       data: { paymentSent: true },
     });
     res.json(updated);
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+  } catch {
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 
@@ -120,7 +120,7 @@ export const markGoodsDelivered = async (req: AuthRequest, res: Response): Promi
       data: { goodsDelivered: true, status },
     });
     res.json(updated);
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+  } catch {
+    res.status(500).json({ message: 'Internal server error' });
   }
 };

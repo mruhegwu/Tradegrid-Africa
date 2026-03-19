@@ -12,6 +12,15 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       res.status(400).json({ message: 'All fields are required' });
       return;
     }
+    if (typeof password !== 'string' || password.length < 6) {
+      res.status(400).json({ message: 'Password must be at least 6 characters' });
+      return;
+    }
+    const normalizedRole = String(role).toUpperCase();
+    if (normalizedRole !== 'SUPPLIER' && normalizedRole !== 'BUYER') {
+      res.status(400).json({ message: 'Role must be SUPPLIER or BUYER' });
+      return;
+    }
     const existing = await prisma.user.findUnique({ where: { email } });
     if (existing) {
       res.status(409).json({ message: 'Email already registered' });
@@ -19,19 +28,19 @@ export const register = async (req: Request, res: Response): Promise<void> => {
     }
     const hashed = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
-      data: { name, email, password: hashed, role: role.toUpperCase() },
+      data: { name, email, password: hashed, role: normalizedRole as 'SUPPLIER' | 'BUYER' },
     });
     const token = jwt.sign(
       { userId: user.id, role: user.role },
-      process.env.JWT_SECRET || 'secret',
+      process.env.JWT_SECRET || 'changeme',
       { expiresIn: '7d' }
     );
     res.status(201).json({
       token,
       user: { id: user.id, name: user.name, email: user.email, role: user.role, verified: user.verified },
     });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+  } catch {
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 
@@ -54,15 +63,15 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     }
     const token = jwt.sign(
       { userId: user.id, role: user.role },
-      process.env.JWT_SECRET || 'secret',
+      process.env.JWT_SECRET || 'changeme',
       { expiresIn: '7d' }
     );
     res.json({
       token,
       user: { id: user.id, name: user.name, email: user.email, role: user.role, verified: user.verified },
     });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+  } catch {
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 
@@ -77,7 +86,7 @@ export const getProfile = async (req: Request & { userId?: string }, res: Respon
       return;
     }
     res.json(user);
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+  } catch {
+    res.status(500).json({ message: 'Internal server error' });
   }
 };

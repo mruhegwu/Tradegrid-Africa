@@ -13,7 +13,7 @@ export const authenticate = (req: AuthRequest, res: Response, next: NextFunction
     return;
   }
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret') as { userId: string; role: string };
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'changeme') as { userId: string; role: string };
     req.userId = decoded.userId;
     req.userRole = decoded.role;
     next();

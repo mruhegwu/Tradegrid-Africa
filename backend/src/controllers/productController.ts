@@ -24,8 +24,8 @@ export const getProducts = async (req: Request, res: Response): Promise<void> =>
       orderBy: { createdAt: 'desc' },
     });
     res.json(products);
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+  } catch {
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 
@@ -42,8 +42,8 @@ export const getProduct = async (req: Request, res: Response): Promise<void> => 
       return;
     }
     res.json(product);
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+  } catch {
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 
@@ -67,8 +67,8 @@ export const createProduct = async (req: AuthRequest, res: Response): Promise<vo
       },
     });
     res.status(201).json(product);
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+  } catch {
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 
@@ -84,8 +84,8 @@ export const updateProduct = async (req: AuthRequest, res: Response): Promise<vo
       data: req.body,
     });
     res.json(updated);
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+  } catch {
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 
@@ -98,8 +98,8 @@ export const deleteProduct = async (req: AuthRequest, res: Response): Promise<vo
     }
     await prisma.product.delete({ where: { id: req.params.id } });
     res.json({ message: 'Product deleted' });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+  } catch {
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 
@@ -110,7 +110,7 @@ export const getMyProducts = async (req: AuthRequest, res: Response): Promise<vo
       orderBy: { createdAt: 'desc' },
     });
     res.json(products);
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+  } catch {
+    res.status(500).json({ message: 'Internal server error' });
   }
 };

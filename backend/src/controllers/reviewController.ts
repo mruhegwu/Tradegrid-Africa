@@ -28,8 +28,8 @@ export const createReview = async (req: AuthRequest, res: Response): Promise<voi
       },
     });
     res.status(201).json(review);
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+  } catch {
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 
@@ -46,7 +46,7 @@ export const getSupplierReviews = async (req: Request, res: Response): Promise<v
       ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
       : 0;
     res.json({ reviews, avgRating, total: reviews.length });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+  } catch {
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
