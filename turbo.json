@@ -1,0 +1,14 @@
+{
+  "json": true,
+  "pipeline": {
+    "build": ["^build"],
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "lint": {},
+    "test": {
+      "outputs": ["coverage/**"]
+    }
+  }
+}
