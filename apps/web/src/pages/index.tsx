@@ -5,7 +5,10 @@ export default function Home() {
     <>
       <Head>
         <title>Tradegrid Africa</title>
-        <meta name="description" content="Tradegrid Africa – connecting traders across the continent" />
+        <meta
+          name="description"
+          content="Tradegrid Africa – connecting traders across the continent"
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <main>

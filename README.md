@@ -46,11 +46,11 @@
 
 ### Prerequisites
 
-| Tool | Minimum Version |
-|------|----------------|
-| Node.js | 18.x |
-| npm | 9.x |
-| Docker | 24.x |
+| Tool    | Minimum Version |
+| ------- | --------------- |
+| Node.js | 18.x            |
+| npm     | 9.x             |
+| Docker  | 24.x            |
 
 ### 1. Bootstrap your environment
 
@@ -82,13 +82,13 @@ docker compose up
 npm run dev
 ```
 
-| Service | URL |
-|---------|-----|
-| Web (Next.js) | http://localhost:3000 |
-| API (Express) | http://localhost:4000 |
-| API Health | http://localhost:4000/health |
-| PostgreSQL | localhost:5432 |
-| Redis | localhost:6379 |
+| Service       | URL                          |
+| ------------- | ---------------------------- |
+| Web (Next.js) | http://localhost:3000        |
+| API (Express) | http://localhost:4000        |
+| API Health    | http://localhost:4000/health |
+| PostgreSQL    | localhost:5432               |
+| Redis         | localhost:6379               |
 
 ---
 
@@ -96,14 +96,14 @@ npm run dev
 
 Run from the repository root:
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start all apps in watch mode |
-| `npm run build` | Build all apps and packages |
-| `npm run test` | Run all test suites |
-| `npm run lint` | Lint all workspaces |
-| `npm run format` | Auto-format with Prettier |
-| `npm run format:check` | Check formatting (CI) |
+| Command                | Description                  |
+| ---------------------- | ---------------------------- |
+| `npm run dev`          | Start all apps in watch mode |
+| `npm run build`        | Build all apps and packages  |
+| `npm run test`         | Run all test suites          |
+| `npm run lint`         | Lint all workspaces          |
+| `npm run format`       | Auto-format with Prettier    |
+| `npm run format:check` | Check formatting (CI)        |
 
 ---
 
@@ -170,12 +170,54 @@ npm run test -- --coverage
 
 ## 🔐 Required GitHub Secrets
 
-| Secret | Description |
-|--------|-------------|
+| Secret         | Description                                 |
+| -------------- | ------------------------------------------- |
 | `GITHUB_TOKEN` | Auto-provided by GitHub Actions (GHCR push) |
-| `JWT_SECRET` | JWT signing secret for the API |
+| `JWT_SECRET`   | JWT signing secret for the API              |
 
 > Add additional cloud secrets (AWS, GCP, etc.) as your infrastructure grows.
+
+---
+
+## 🌐 API Reference
+
+Base URL: `http://localhost:4000`
+
+### Health
+
+| Method | Path      | Auth | Description          |
+| ------ | --------- | ---- | -------------------- |
+| GET    | `/health` | —    | Service health check |
+
+### Auth
+
+| Method | Path                    | Auth   | Description          |
+| ------ | ----------------------- | ------ | -------------------- |
+| POST   | `/api/v1/auth/register` | —      | Create a new account |
+| POST   | `/api/v1/auth/login`    | —      | Obtain a JWT         |
+| GET    | `/api/v1/auth/me`       | Bearer | Get the current user |
+
+### Listings
+
+| Method | Path                   | Auth            | Description                                |
+| ------ | ---------------------- | --------------- | ------------------------------------------ |
+| GET    | `/api/v1/listings`     | —               | List active listings (paginated)           |
+| GET    | `/api/v1/listings/:id` | —               | Get a single listing                       |
+| POST   | `/api/v1/listings`     | Bearer (seller) | Create a listing                           |
+| PATCH  | `/api/v1/listings/:id` | Bearer (owner)  | Update a listing                           |
+| DELETE | `/api/v1/listings/:id` | Bearer (owner)  | Soft-delete (seller) / hard-delete (admin) |
+
+#### Listing query parameters
+
+| Param       | Type                     | Description                             |
+| ----------- | ------------------------ | --------------------------------------- |
+| `page`      | number                   | Page number (default: 1)                |
+| `limit`     | number                   | Items per page (1–100, default: 20)     |
+| `category`  | string                   | Filter by category                      |
+| `condition` | `new\|used\|refurbished` | Filter by condition                     |
+| `minPrice`  | number                   | Minimum price                           |
+| `maxPrice`  | number                   | Maximum price                           |
+| `search`    | string                   | Full-text search on title & description |
 
 ---
 
@@ -189,11 +231,11 @@ This project uses [Turborepo](https://turbo.build/repo) for:
 
 ### Upgrade path
 
-| Scale | Tool |
-|-------|------|
-| Current | Turborepo (npm workspaces) |
-| Growing team | Add Nx for more granular task scheduling |
-| Micro-frontend | Module Federation + Turborepo |
+| Scale          | Tool                                     |
+| -------------- | ---------------------------------------- |
+| Current        | Turborepo (npm workspaces)               |
+| Growing team   | Add Nx for more granular task scheduling |
+| Micro-frontend | Module Federation + Turborepo            |
 
 ---
 
@@ -215,15 +257,16 @@ terraform apply
 
 ## 🤝 Contributing
 
-1. Fork the repo
-2. Create a feature branch: `git checkout -b feat/my-feature`
-3. Commit with [Conventional Commits](https://www.conventionalcommits.org/): `git commit -m "feat: add trade listing API"`
-4. Push and open a pull request against `main`
-
-Pre-commit hooks will automatically run linting and formatting checks.
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full guide including commit conventions, PR process, and style guide.
 
 ---
 
 ## 📄 License
 
 [MIT](./LICENSE)
+
+---
+
+## 📋 Changelog
+
+See [CHANGELOG.md](./CHANGELOG.md) for a history of notable changes.
